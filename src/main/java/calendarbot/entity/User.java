@@ -1,6 +1,7 @@
 package calendarbot.entity;
 
 import calendarbot.entity.baseDomain.BaseDomain;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,8 @@ import java.util.UUID;
 @Setter
 public class User extends BaseDomain<UUID> {
 
-    private String telegramId;
-    private String UserName;
+    @Column(nullable = false, unique = true)
+    private Long chatId;
+    private String Username;
+
 }

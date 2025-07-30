@@ -1,4 +1,6 @@
 package calendarbot.dto;
 
-public class EventRequestDto {
+public record EventRequestDto(
+
+) {
 }
