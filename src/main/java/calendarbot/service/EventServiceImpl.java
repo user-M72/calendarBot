@@ -1,22 +1,81 @@
 package calendarbot.service;
 
 
+import calendarbot.entity.Event;
+import calendarbot.entity.User;
 import calendarbot.repository.EventRepository;
+import calendarbot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService{
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public void eventFromMessage(Long chatId, String message) {
+    public User createdUser(Long chatId, String username, String phoneNumber) {
+        User user = new User();
+        user.setChatId(chatId);
+        user.setUsername(username);
+        user.setPhoneNumber(phoneNumber);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserByChatId(Long chatId) {
+        return userRepository.findByChatId(chatId);
 
     }
 
     @Override
+    public void eventFromMessage(Long chatId, String message) {
+        User user = userRepository.findByChatId(chatId);
+
+        String[] parts =  message.split(":", 2);
+        if (parts.length < 2) throw new IllegalArgumentException("Invalid format");
+
+        String title = parts[0];
+        LocalDateTime dateTime = LocalDateTime.parse(parts[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        Event event = new Event();
+        event.setTitle(title);
+        event.setDateTime(dateTime);
+        event.setUser(user);
+
+        eventRepository.save(event);
+    }
+
+    @Override
     public String getTodayEventsAssString(Long chatId) {
-        return "";
+        User user = userRepository.findByChatId(chatId);
+        if (user == null){
+            return "User not found";
+        }
+
+        LocalDateTime startOfDay = LocalDateTime.now();
+        LocalDateTime endOfDay = startOfDay.plusDays(1).toLocalDate().atStartOfDay();
+
+        List<Event> events = eventRepository.findAllByUserAndDateTimeBetweenOrderByDateTimeAsc(user, startOfDay, endOfDay);
+
+        if (events.isEmpty()){
+            return "";
+        }
+
+        StringBuilder builder =new StringBuilder("\uD83D\uDCC5 Today's events:\n");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (Event event: events){
+            builder.append("⏰ ").append(dateTimeFormatter.format(event.getDateTime()))
+                    .append(" - ").append(event.getTitle()).append("\n");
+        }
+        return builder.toString();
     }
 }

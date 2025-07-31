@@ -19,3 +19,8 @@ spring:
 spring doc:
   swagger-ui:
     path: /swagger-ui.html
+
+telegram:
+  bot:
+    username: calendarEvent1Bot
+    token: 8242380094:AAHx2A_BAnMRAsz7IYl-hIyfVBdEm2KuLZw

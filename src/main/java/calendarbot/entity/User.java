@@ -16,5 +16,6 @@ public class User extends BaseDomain<UUID> {
     @Column(nullable = false, unique = true)
     private Long chatId;
     private String Username;
+    private String phoneNumber;
 
 }

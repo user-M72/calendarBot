@@ -1,4 +1,10 @@
 package calendarbot.service;
 
-public class UserService {
+import calendarbot.dto.UserResponseDto;
+import calendarbot.entity.User;
+
+import java.util.List;
+
+public interface UserService {
+    List<User> get();
 }

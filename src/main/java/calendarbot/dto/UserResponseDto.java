@@ -1,4 +1,8 @@
 package calendarbot.dto;
 
-public class UserResponseDto {
+public record UserResponseDto(
+
+        String username,
+        String phoneNumber
+) {
 }
