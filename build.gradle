@@ -36,6 +36,8 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.telegram:telegrambots-spring-boot-starter:6.5.0'
 
+
+	implementation "me.paulschwarz:spring-dotenv:3.0.0"
 }
 
 tasks.named('test') {

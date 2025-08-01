@@ -22,5 +22,8 @@ spring doc:
 
 telegram:
   bot:
-    username: calendarEvent1Bot
-    token: 8242380094:AAHx2A_BAnMRAsz7IYl-hIyfVBdEm2KuLZw
+    username: ${Bot_Name}
+    token: ${Bot_Token}
+
+dotenv:
+  enabled: true

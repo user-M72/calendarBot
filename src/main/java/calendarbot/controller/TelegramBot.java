@@ -79,13 +79,22 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
             switch (message) {
                 case "/start" -> sendMessage(chatId, "\uD83D\uDC4B Hi! I'm a calendar bot. Use /add to add an event");
-                case "/add" -> sendMessage(chatId, "✍ Enter the event in the format: Title yyyy-MM-dd HH:mm");
+                case "/add" -> sendMessage(chatId, "✍ Enter the event in the format: Title - yyyy-MM-dd HH:mm");
                 case "/list" -> {
                     String event = eventService.getTodayEventsAssString(chatId);
                     sendMessage(chatId, event.isEmpty() ? "\uD83D\uDCED There are no events today" : event);
                 }
+
+                case "/help" -> sendMessage(chatId, "Available commands:\n" +
+                        "/start - Start the bot\n" +
+                        "/add - Added event\n" +
+                        "/list - Today`s  event\n" +
+                        "/help - Show this help message\n" +
+                        "/info - Some info command\n");
+                case "/info" -> sendMessage(chatId, "");
+
                 default -> {
-                    if (message.contains(":")){
+                    if (message.contains("-")){
                         try {
                             eventService.eventFromMessage(chatId, message);
                             sendMessage(chatId, "Event added!");
@@ -93,7 +102,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                             sendMessage(chatId, "Error adding event");
                         }
                     } else {
-                        sendMessage(chatId, "Unknown command");
+                        sendMessage(chatId, "Unknown command. Please, type /help");
                     }
                 }
             }
@@ -115,7 +124,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @PostConstruct
     public void initCommands(){
         List<BotCommand> commandList = new ArrayList<>();
-        commandList.add(new BotCommand("/start", "Launch bot"));
+        commandList.add(new BotCommand("/start", "start the bot"));
         commandList.add(new BotCommand("/add", "Added event"));
         commandList.add(new BotCommand("/list", "Today`s event"));
         commandList.add(new BotCommand("/help", "help"));

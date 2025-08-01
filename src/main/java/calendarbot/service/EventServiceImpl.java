@@ -39,7 +39,7 @@ public class EventServiceImpl implements EventService{
     public void eventFromMessage(Long chatId, String message) {
         User user = userRepository.findByChatId(chatId);
 
-        String[] parts =  message.split(":", 2);
+        String[] parts =  message.split("-", 2);
         if (parts.length < 2) throw new IllegalArgumentException("Invalid format");
 
         String title = parts[0];
