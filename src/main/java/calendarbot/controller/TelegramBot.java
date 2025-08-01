@@ -79,7 +79,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
             switch (message) {
                 case "/start" -> sendMessage(chatId, "\uD83D\uDC4B Hi! I'm a calendar bot. Use /add to add an event");
-                case "/add" -> sendMessage(chatId, "✍ Enter the event in the format: Title - yyyy-MM-dd HH:mm");
+                case "/add" -> sendMessage(chatId, "✍ Enter the event in the format: {Title-yyyy-MM-dd HH:mm}");
                 case "/list" -> {
                     String event = eventService.getTodayEventsAssString(chatId);
                     sendMessage(chatId, event.isEmpty() ? "\uD83D\uDCED There are no events today" : event);
