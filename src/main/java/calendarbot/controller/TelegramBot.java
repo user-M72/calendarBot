@@ -91,7 +91,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                         "/list - Today`s  event\n" +
                         "/help - Show this help message\n" +
                         "/info - Some info command\n");
-                case "/info" -> sendMessage(chatId, "");
+
+                case "/info" -> sendMessage(chatId, "This bot will help you not to forget important events!\n" +
+                        "You can easily add and view your tasks and reminders");
 
                 default -> {
                     if (message.contains("-")){
@@ -110,7 +112,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     }
 
-    private void sendMessage(Long chatId, String text){
+    public void sendMessage(Long chatId, String text){
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
@@ -127,6 +129,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         commandList.add(new BotCommand("/start", "start the bot"));
         commandList.add(new BotCommand("/add", "Added event"));
         commandList.add(new BotCommand("/list", "Today`s event"));
+        commandList.add(new BotCommand("/info", "Some info command"));
         commandList.add(new BotCommand("/help", "help"));
 
         try {
