@@ -5,7 +5,6 @@ import calendarbot.entity.Event;
 import calendarbot.entity.User;
 import calendarbot.repository.EventRepository;
 import calendarbot.repository.UserRepository;
-import calendarbot.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,33 +14,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
-public class Notification {
-    @Autowired
-    private EventService eventService;
-    @Autowired
-    private EventRepository eventRepository;
+public class EventReminderNotification {
 
-    @Autowired
-    private TelegramBot telegramBot;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Scheduled(cron = "0 0 9 * * * ")
-    public void sendNotification(){
-
-        for (User user : userRepository.findAll()) {
-            String events = eventService.getTodayEventsAssString(user.getChatId());
-            if (!events.isEmpty()) {
-                telegramBot.sendMessage(user.getChatId(), events);
-            }
-        }
-
-    }
+    @Autowired private UserRepository userRepository;
+    @Autowired private EventRepository eventRepository;
+    @Autowired private TelegramBot telegramBot;
 
     @Scheduled(cron = "0 * * * * *")
-    public void sendNotificationEachHalfHour() {
-
+    private void EventReminder(){
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime targetTime = now.plusMinutes(30);
 
@@ -54,6 +34,8 @@ public class Notification {
                 String message = "⏰ Reminder: Event " + event.getTitle() + " starts in 30 minutes (at " + time + ")";
                 telegramBot.sendMessage(user.getChatId(), message);
             }
+
+
         }
     }
 }
