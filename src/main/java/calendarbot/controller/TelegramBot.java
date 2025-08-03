@@ -124,23 +124,4 @@ public class TelegramBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-
-    @PostConstruct
-    public void initCommands(){
-        List<BotCommand> commandList = new ArrayList<>();
-        commandList.add(new BotCommand("/start", "start the bot"));
-        commandList.add(new BotCommand("/add", "Added event"));
-        commandList.add(new BotCommand("/list", "Today`s event"));
-        commandList.add(new BotCommand("/info", "Some info command"));
-        commandList.add(new BotCommand("/help", "help"));
-
-        try {
-            this.execute(new SetMyCommands(commandList, new BotCommandScopeDefault(), null));
-        }  catch (TelegramApiException e){
-            e.printStackTrace();
-        }
-    }
-
-
-
 }
