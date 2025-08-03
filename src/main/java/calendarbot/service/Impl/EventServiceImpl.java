@@ -1,10 +1,11 @@
-package calendarbot.service;
+package calendarbot.service.Impl;
 
 
 import calendarbot.entity.Event;
 import calendarbot.entity.User;
 import calendarbot.repository.EventRepository;
 import calendarbot.repository.UserRepository;
+import calendarbot.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
     @Autowired
     private EventRepository eventRepository;
 

@@ -1,14 +1,15 @@
-package calendarbot.service;
+package calendarbot.service.Impl;
 
 import calendarbot.entity.User;
 import calendarbot.repository.UserRepository;
+import calendarbot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -25,10 +26,5 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getByChatId(Long chatId) {
         return userRepository.findByChatId(chatId);
-    }
-
-    @Override
-    public List<User> get() {
-        return userRepository.findAll();
     }
 }

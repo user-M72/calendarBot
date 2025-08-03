@@ -9,5 +9,4 @@ public interface UserService {
 
     User getByChatId(Long chatId);
 
-    List<User> get();
 }
