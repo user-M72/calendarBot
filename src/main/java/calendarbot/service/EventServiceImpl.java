@@ -21,21 +21,6 @@ public class EventServiceImpl implements EventService{
     private UserRepository userRepository;
 
     @Override
-    public User createdUser(Long chatId, String username, String phoneNumber) {
-        User user = new User();
-        user.setChatId(chatId);
-        user.setUsername(username);
-        user.setPhoneNumber(phoneNumber);
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User getUserByChatId(Long chatId) {
-        return userRepository.findByChatId(chatId);
-
-    }
-
-    @Override
     public void eventFromMessage(Long chatId, String message) {
         User user = userRepository.findByChatId(chatId);
 

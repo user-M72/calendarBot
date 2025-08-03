@@ -2,6 +2,7 @@ package calendarbot.controller;
 
 import calendarbot.entity.User;
 import calendarbot.service.EventService;
+import calendarbot.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final Map<Long, User> registrationInProgress = new HashMap<>();
 
-    @Autowired
-    private EventService eventService;
+    @Autowired private EventService eventService;
+    @Autowired private UserService userService;
 
     @Value("${telegram.bot.username}")
     private String botUserName;
@@ -53,7 +54,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             String message = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
 
-            User existingUser = eventService.getUserByChatId(chatId);
+            User existingUser = userService.getByChatId(chatId);
             if (existingUser == null){
                 if (!registrationInProgress.containsKey(chatId)){
                     User newUser = new User();
@@ -71,9 +72,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
                 if (user.getPhoneNumber() == null){
                     user.setPhoneNumber(message);
-                    eventService.createdUser(user.getChatId(), user.getUsername(), user.getPhoneNumber());
+                    userService.User(user.getChatId(), user.getUsername(), user.getPhoneNumber());
                     registrationInProgress.remove(chatId);
-                    sendMessage(chatId, "You have registered successfully!");
+                    sendMessage(chatId, "You have registered successfully!\n" +
+                            "\uD83D\uDC4B Hi! I'm a calendar bot. Use /add to add an event");
                     return;
                 }
             }
