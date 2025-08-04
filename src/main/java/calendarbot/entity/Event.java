@@ -20,7 +20,6 @@ public class Event extends BaseDomain<UUID> {
 
     @Column(nullable = false)
     private String title;
-//    private String description;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;
