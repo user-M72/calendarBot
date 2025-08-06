@@ -25,11 +25,18 @@ public class EventServiceImpl implements EventService {
     public void eventFromMessage(Long chatId, String message) {
         User user = userRepository.findByChatId(chatId);
 
+
         String[] parts =  message.split("-", 2);
         if (parts.length < 2) throw new IllegalArgumentException("Invalid format");
 
-        String title = parts[0];
-        LocalDateTime dateTime = LocalDateTime.parse(parts[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String title = parts[0].trim();
+        String dateTimePart = parts[1].trim();
+
+        int year = LocalDateTime.now().getYear();
+        String fullDateTime = year + "-" + dateTimePart;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(fullDateTime, formatter);
 
         Event event = new Event();
         event.setTitle(title);
